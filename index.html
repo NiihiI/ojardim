@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>O Jardim</title>
+<meta name="description" content="Um lugar para conversar sem pressa sobre filosofia, política, literatura e afins. Servidor de TeamSpeak entre amigos.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f7f4ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111712" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="O Jardim">
+<meta property="og:description" content="Conversa sem pressa sobre filosofia, política, literatura e afins.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ojardim.cloud/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+  :root {
+    --papel: #f7f4ea;
+    --ponto: rgba(70, 80, 55, .14);
+    --tinta: #23281f;
+    --tinta-suave: #5a6354;
+    --sepia: #4d4230;
+    --folha: #93c66b;
+    --folha-media: #5e9a48;
+    --folha-escura: #2f6b33;
+    --broto: #d6eabf;
+    --ocre: #a95a24;
+    --cartao: #fffdf7;
+    --linha: #ddd4bd;
+    --etiqueta: #f4ecd5;
+    --fita: rgba(214, 200, 150, .55);
+    --azeitona: #47384f;
+    --uva: #6b4a82;
+    --papoula: #d8452b;
+    --figo: #7d4a6e;
+    --bolota: #b07b45;
+    --semente: #b98b52;
+    --sombra: 0 1px 2px rgba(40, 45, 30, .06), 0 10px 28px rgba(40, 45, 30, .07);
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+    --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", "Courier New", monospace;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --papel: #111712;
+      --ponto: rgba(200, 220, 190, .075);
+      --tinta: #e8eadf;
+      --tinta-suave: #a6af9e;
+      --sepia: #d9ceb2;
+      --folha: #6faf53;
+      --folha-media: #4f8f3e;
+      --folha-escura: #a6d98f;
+      --broto: #22331e;
+      --ocre: #e6a468;
+      --cartao: #172018;
+      --linha: #2b3829;
+      --etiqueta: #1e281d;
+      --fita: rgba(150, 140, 100, .3);
+      --azeitona: #34283b;
+      --uva: #7d5c96;
+      --papoula: #e0563c;
+      --figo: #8d5a80;
+      --bolota: #c08d58;
+      --semente: #c49a62;
+      --sombra: 0 1px 2px rgba(0, 0, 0, .35), 0 10px 28px rgba(0, 0, 0, .3);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background-color: var(--papel);
+    background-image: radial-gradient(circle, var(--ponto) 1px, transparent 1.3px);
+    background-size: 22px 22px;
+    color: var(--tinta);
+    font-family: var(--serif);
+    font-size: 1.125rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--folha-escura); text-underline-offset: .18em; }
+  a:hover { color: var(--ocre); }
+  :focus-visible { outline: 2px solid var(--ocre); outline-offset: 3px; border-radius: 4px; }
+  code { font-family: var(--mono); font-size: .92em; }
+
+  .pular {
+    position: absolute; left: -999px; top: 0;
+    background: var(--folha-escura); color: var(--papel);
+    padding: .5rem 1rem; font-family: var(--sans); font-size: .9rem;
+  }
+  .pular:focus { left: 1rem; top: 1rem; z-index: 10; }
+
+  .estreito { width: min(100% - 2rem, 46rem); margin-inline: auto; }
+  .largo { width: min(100% - 2rem, 70rem); margin-inline: auto; }
+
+  /* Desenhos */
+  .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .t { fill: none; stroke: var(--sepia); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .t.fino { stroke-width: 1; opacity: .75; }
+  .t.grosso { stroke-width: 2.4; }
+  .t.raio { stroke: var(--folha-media); stroke-width: 1.1; }
+  .t.terra { stroke-width: 1; opacity: .45; }
+  .f { fill: var(--folha); stroke: var(--sepia); stroke-width: 1.5; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .f.media { fill: var(--folha-media); }
+  .v { fill: none; stroke: var(--sepia); stroke-width: .9; stroke-linecap: round; opacity: .7; vector-effect: non-scaling-stroke; }
+  .tinta { stroke: var(--sepia); stroke-width: 1.4; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+
+  /* ── Portão ───────────────────────────── */
+  header.portao {
+    padding: clamp(2.75rem, 8vw, 5.5rem) 0 clamp(2.5rem, 6vw, 4rem);
+    text-align: center;
+  }
+  .emblema { display: block; width: min(80vw, 320px); height: auto; margin: 0 auto; }
+  h1 {
+    font-size: clamp(2.9rem, 10vw, 4.8rem);
+    font-weight: 500;
+    letter-spacing: -.01em;
+    line-height: 1.02;
+    margin: .5rem 0 1.1rem;
+  }
+  .epigrafe { margin: 0 auto 1.4rem; max-width: 32rem; }
+  .epigrafe p { font-style: italic; font-size: clamp(1.2rem, 3.4vw, 1.45rem); margin: 0; }
+  .epigrafe footer { font-family: var(--mono); font-size: .76rem; color: var(--tinta-suave); margin-top: .5rem; }
+  .lema { color: var(--tinta-suave); margin: 0 auto 2rem; max-width: 30rem; }
+
+  .endereco {
+    display: inline-flex; align-items: center; gap: .3rem;
+    background: var(--cartao);
+    border: 1px solid var(--linha);
+    border-radius: 999px;
+    padding: .3rem .3rem .3rem 1.1rem;
+    box-shadow: var(--sombra);
+    max-width: 100%;
+  }
+  .endereco code { font-size: 1.02rem; color: var(--tinta); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .endereco button {
+    font-family: var(--sans); font-size: .85rem; font-weight: 600;
+    border: 0; border-radius: 999px; cursor: pointer;
+    background: var(--folha-escura); color: var(--papel);
+    padding: .5rem .95rem;
+  }
+  .endereco button:hover { background: var(--ocre); }
+  .dica { font-family: var(--mono); font-size: .76rem; color: var(--tinta-suave); margin: .7rem 0 0; }
+
+  nav.trilhas {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: .3rem 1.2rem;
+    font-family: var(--sans); font-size: .9rem; margin-top: 2.25rem;
+  }
+  nav.trilhas a { color: var(--tinta-suave); text-decoration: none; }
+  nav.trilhas a:hover { color: var(--folha-escura); text-decoration: underline; }
+
+  /* ── Pranchas (seções) ───────────────────────────── */
+  .prancha { padding: clamp(2.75rem, 7vw, 4.25rem) 0; border-top: 1px dashed var(--linha); }
+  .rotulo {
+    font-family: var(--mono); font-size: .74rem; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--ocre);
+    margin: 0 0 .5rem;
+  }
+  h2 { font-size: clamp(1.8rem, 5vw, 2.35rem); font-weight: 500; line-height: 1.2; margin: 0 0 .9rem; }
+  h3 { font-size: 1.22rem; font-weight: 600; line-height: 1.3; margin: 0 0 .2rem; }
+  .intro { color: var(--tinta-suave); margin: 0; }
+
+  /* Como entrar */
+  ol.passos { list-style: none; counter-reset: passo; padding: 0; margin: 2rem 0 0; display: grid; gap: .9rem; }
+  ol.passos li {
+    counter-increment: passo;
+    display: grid; grid-template-columns: 2.6rem 1fr; gap: 1rem; align-items: start;
+    background: var(--cartao); border: 1px solid var(--linha); border-radius: 12px;
+    padding: 1.05rem 1.2rem; box-shadow: var(--sombra);
+  }
+  ol.passos li::before {
+    content: counter(passo);
+    display: grid; place-items: center;
+    width: 2.6rem; height: 2.6rem; border-radius: 50%;
+    border: 1.5px dashed var(--ocre); color: var(--ocre);
+    font-family: var(--mono); font-weight: 700;
+  }
+  ol.passos p { margin: 0; color: var(--tinta-suave); }
+
+  /* Os canteiros */
+  .canteiros {
+    display: grid; gap: 1.75rem 1.25rem; margin-top: 2.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr));
+  }
+  .especime {
+    position: relative;
+    background: var(--cartao); border: 1px solid var(--linha); border-radius: 10px;
+    padding: 1.1rem 1.15rem 1.2rem; box-shadow: var(--sombra);
+  }
+  .especime::before {
+    content: ""; position: absolute; top: -9px; left: 50%;
+    width: 64px; height: 18px; transform: translateX(-50%) rotate(-3deg);
+    background: var(--fita); border: 1px solid rgba(150, 130, 80, .2);
+  }
+  .especime .desenho { display: block; width: 100%; max-width: 132px; height: auto; margin: .25rem auto .35rem; }
+  .etiqueta {
+    font-family: var(--mono); font-size: .72rem; line-height: 1.5;
+    background: var(--etiqueta); border: 1px solid var(--linha); border-radius: 3px;
+    padding: .4rem .6rem; margin: 0 0 .8rem; color: var(--tinta-suave);
+    transform: rotate(-.6deg);
+  }
+  .etiqueta .num { color: var(--ocre); font-weight: 700; letter-spacing: .05em; margin-right: .35rem; }
+  .etiqueta .sci { white-space: nowrap; }
+  .etiqueta i { color: var(--tinta); }
+  .especime p { margin: 0; color: var(--tinta-suave); font-size: 1rem; }
+  .subsalas { margin: .55rem 0 0; padding-left: 1.1rem; font-size: .98rem; color: var(--tinta-suave); }
+  .subsalas li::marker { color: var(--folha-media); }
+  .subsalas strong { color: var(--tinta); font-weight: 600; }
+  .selo {
+    display: inline-block; font-family: var(--mono); font-size: .66rem; font-weight: 700;
+    color: var(--ocre); border: 1px solid currentColor; border-radius: 999px;
+    padding: .05rem .45rem; margin-left: .3rem; vertical-align: .2em; white-space: nowrap;
+  }
+
+  /* Quem cuida */
+  .germinacao { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem 1rem; margin: 2.25rem 0 0; }
+  @media (min-width: 52rem) { .germinacao { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; } }
+  .germinacao figure { margin: 0; text-align: center; }
+  .germinacao svg { display: block; width: 100%; max-width: 170px; height: auto; margin: 0 auto; }
+  .germinacao figcaption { font-family: var(--mono); font-size: .76rem; color: var(--ocre); letter-spacing: .04em; margin-top: .2rem; }
+  .germinacao h3 { margin: .3rem 0 .2rem; }
+  .germinacao p { margin: 0 auto; max-width: 15rem; font-size: .98rem; color: var(--tinta-suave); }
+
+  /* Notas de campo */
+  ol.notas { list-style: none; counter-reset: nota; padding: 0; margin: 2rem 0 0; display: grid; gap: .95rem; }
+  ol.notas li { counter-increment: nota; display: grid; grid-template-columns: 2.9rem 1fr; gap: .5rem; }
+  ol.notas li::before {
+    content: "n." counter(nota);
+    font-family: var(--mono); font-size: .8rem; font-weight: 700; color: var(--ocre);
+    padding-top: .28rem;
+  }
+  ol.notas strong { font-weight: 600; }
+  ol.notas span { color: var(--tinta-suave); }
+  .nota-margem {
+    margin-top: 2rem; padding: 1rem 1.15rem;
+    border: 1.5px dashed var(--ocre); border-radius: 10px;
+    color: var(--tinta-suave); font-size: 1rem;
+  }
+  .nota-margem strong { color: var(--ocre); font-family: var(--mono); font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; display: block; margin-bottom: .2rem; }
+
+  /* O nome */
+  .prosa p { margin: 1rem 0 0; }
+  .prosa em { font-style: italic; }
+
+  /* Rodapé */
+  footer.muro { padding: 2.75rem 0 4rem; text-align: center; color: var(--tinta-suave); border-top: 1px dashed var(--linha); }
+  footer.muro .ramo { width: 130px; height: auto; display: block; margin: 0 auto .75rem; }
+  footer.muro blockquote { margin: 0 0 1rem; font-style: italic; font-size: 1.2rem; color: var(--tinta); }
+  footer.muro blockquote small { display: block; font-style: normal; font-family: var(--mono); font-size: .76rem; color: var(--tinta-suave); margin-top: .3rem; }
+  footer.muro p { font-family: var(--mono); font-size: .76rem; margin: 0; }
+</style>
+</head>
+<body>
+<a class="pular" href="#entrar">Pular para “Como entrar”</a>
+
+<!-- Folhas e frutos reaproveitados nos desenhos -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="fo-oliveira">
+      <path style="fill:var(--folha);stroke:var(--sepia);stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke" d="M0 0C9-5.5 27-6.5 40 0C27 6.5 9 5.5 0 0Z"/>
+      <path style="fill:none;stroke:var(--sepia);stroke-width:.9;stroke-linecap:round;opacity:.7;vector-effect:non-scaling-stroke" d="M3 0H36"/>
+    </g>
+    <g id="azeitona">
+      <ellipse style="fill:var(--azeitona);stroke:var(--sepia);stroke-width:1.3;vector-effect:non-scaling-stroke" rx="4.3" ry="5.8"/>
+      <ellipse style="fill:#fff;opacity:.3" cx="-1.4" cy="-2" rx="1.1" ry="1.7"/>
+    </g>
+    <g id="fo-louro">
+      <path style="fill:var(--folha-media);stroke:var(--sepia);stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke" d="M0 0C6-8.5 24-10 34 0C24 10 6 8.5 0 0Z"/>
+      <path style="fill:none;stroke:var(--sepia);stroke-width:.85;stroke-linecap:round;opacity:.7;vector-effect:non-scaling-stroke" d="M3 0H31M11 0l5-4.5M19 0l5-4.5M11 0l5 4.5M19 0l5 4.5"/>
+    </g>
+    <g id="fo-hera">
+      <path style="fill:var(--folha-media);stroke:var(--sepia);stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke" d="M0 0C-4-6-10-8-20-9C-16-14-15-18-18-24C-11-23-8-26-8-32C-4-30-2-36 0-43C2-36 4-30 8-32C8-26 11-23 18-24C15-18 16-14 20-9C10-8 4-6 0 0Z"/>
+      <path style="fill:none;stroke:var(--sepia);stroke-width:.85;stroke-linecap:round;opacity:.7;vector-effect:non-scaling-stroke" d="M0-3V-39M0-6L-14-21M0-6L14-21M0-4L-16-10M0-4L16-10"/>
+    </g>
+    <g id="uva">
+      <circle style="fill:var(--uva);stroke:var(--sepia);stroke-width:1.2;vector-effect:non-scaling-stroke" r="4.4"/>
+      <circle style="fill:#fff;opacity:.3" cx="-1.4" cy="-1.5" r="1.1"/>
+    </g>
+  </defs>
+</svg>
+
+<header class="portao">
+  <div class="estreito">
+    <svg class="emblema" viewBox="0 0 252 112" aria-hidden="true">
+      <path class="t grosso" d="M12 90C62 82 118 64 228 24"/>
+      <path class="t" d="M100 68.3c1 7 0 12-1 15M150 51.5c2 7 3 11 2.5 14.5M196 35.6c2 6 2.5 10 2 11"/>
+      <use href="#fo-oliveira" transform="translate(40 84) rotate(-58)"/>
+      <use href="#fo-oliveira" transform="translate(60 80) rotate(16) scale(.8)"/>
+      <use href="#fo-oliveira" transform="translate(84 73) rotate(-54)"/>
+      <use href="#fo-oliveira" transform="translate(108 65.5) rotate(20) scale(.8)"/>
+      <use href="#fo-oliveira" transform="translate(132 57.5) rotate(-50)"/>
+      <use href="#fo-oliveira" transform="translate(160 48) rotate(18) scale(.8)"/>
+      <use href="#fo-oliveira" transform="translate(180 41) rotate(-46)"/>
+      <use href="#fo-oliveira" transform="translate(200 34) rotate(12) scale(.8)"/>
+      <use href="#fo-oliveira" transform="translate(218 27.5) rotate(-20) scale(.75)"/>
+      <use href="#azeitona" transform="translate(99 89)"/>
+      <use href="#azeitona" transform="translate(152.5 71.5)"/>
+      <use href="#azeitona" transform="translate(198 52) scale(.9)"/>
+    </svg>
+    <h1>O Jardim</h1>
+    <blockquote class="epigrafe">
+      <p>“Hóspede, aqui farás bem em demorar-te.”</p>
+      <footer>inscrição no portão do Jardim de Epicuro, segundo Sêneca</footer>
+    </blockquote>
+    <p class="lema">Um lugar para conversar sem pressa sobre filosofia, política, literatura e afins. Por enquanto, entre amigos.</p>
+
+    <div class="endereco">
+      <code id="endereco">ts.ojardim.cloud</code>
+      <button type="button" id="copiar" aria-describedby="endereco">Copiar</button>
+    </div>
+    <p class="dica">endereço do servidor no TeamSpeak 6</p>
+
+    <nav class="trilhas" aria-label="Seções">
+      <a href="#entrar">Como entrar</a>
+      <a href="#canteiros">Os canteiros</a>
+      <a href="#quem-cuida">Quem cuida</a>
+      <a href="#notas">Notas de campo</a>
+      <a href="#nome">O nome</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="prancha" id="entrar">
+    <div class="estreito">
+      <p class="rotulo">Prancha I · Como entrar</p>
+      <h2>Do portão para dentro</h2>
+      <p class="intro">São três passos, e o terceiro é ter um amigo lá dentro.</p>
+      <ol class="passos">
+        <li>
+          <div>
+            <h3>Baixe o TeamSpeak 6</h3>
+            <p>É de graça, para Windows, macOS e Linux, em <a href="https://teamspeak.com/en/downloads/" rel="noopener">teamspeak.com</a>.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Cole o endereço</h3>
+            <p>No TeamSpeak, conecte a um servidor e cole <code>ts.ojardim.cloud</code>. Não precisa de porta.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Use a senha do convite</h3>
+            <p>Quem te chamou passa a senha. Você chega como Semente, no canal O Portão.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="prancha" id="canteiros">
+    <div class="largo">
+      <div style="max-width:46rem">
+        <p class="rotulo">Prancha II · A planta das salas</p>
+        <h2>Os canteiros</h2>
+        <p class="intro">Cada sala tem seu tema. Se a conversa mudar de rumo, mude de canteiro.</p>
+      </div>
+
+      <div class="canteiros">
+        <article class="especime">
+          <svg class="desenho" viewBox="0 0 120 120" aria-hidden="true">
+            <path class="t grosso" d="M14 112C30 96 22 80 40 70C58 60 52 44 70 36C86 28 92 20 104 10"/>
+            <path class="t fino" d="M22 99l-5 2M31 84l-5-1M46 66l-2 5M58 50l5 1M80 31l1 5M95 19l4 2"/>
+            <path class="t" d="M40 70l13 5M70 36l-12-6M26 89l10 5"/>
+            <use href="#fo-hera" transform="translate(53 75) rotate(62) scale(.82)"/>
+            <use href="#fo-hera" transform="translate(58 30) rotate(-58) scale(.72)"/>
+            <use href="#fo-hera" transform="translate(36 94) rotate(112) scale(.6)"/>
+            <use href="#fo-hera" transform="translate(104 10) rotate(150) scale(.45)"/>
+          </svg>
+          <p class="etiqueta"><span class="num">Nº&nbsp;01</span> <span class="sci"><i>Hedera helix</i> L.</span><br>hera · a que sobe nos portões</p>
+          <h3>O Portão</h3>
+          <p>A entrada. Todo mundo chega aqui, e as regras estão na descrição.</p>
+        </article>
+
+        <article class="especime">
+          <svg class="desenho" viewBox="0 0 120 120" aria-hidden="true">
+            <path class="t" d="M60 74C61 86 64 96 68 108"/>
+            <path class="f" transform="translate(60 74)" d="M0 0L-8-6L-31-3L-23-14L-37-27L-19-27L-17-42L-6-31L0-52L6-31L17-42L19-27L37-27L23-14L31-3L8-6Z"/>
+            <path class="v" transform="translate(60 74)" d="M0 0V-48M0-2L-31-25M0-2L31-25M0 0L-27-5M0 0L27-5M0-20L-8-29M0-20L8-29M-14-13L-17-21M14-13L17-21"/>
+            <path class="t" d="M18 6C20 14 22 20 24 23.5"/>
+            <circle class="tinta" cx="24" cy="30" r="6.5" style="fill:var(--bolota)"/>
+            <path class="t fino" d="M24 21.5v-2M24 38.5v2M15.5 30h-2M32.5 30h2M18 24l-1.5-1.5M30 24l1.5-1.5M18 36l-1.5 1.5M30 36l1.5 1.5"/>
+          </svg>
+          <p class="etiqueta"><span class="num">Nº&nbsp;02</span> <span class="sci"><i>Platanus orientalis</i> L.</span><br>plátano · como os que Címon plantou na ágora</p>
+          <h3>A Ágora</h3>
+          <p>Conversa livre, de passagem ou de horas.</p>
+        </article>
+
+        <article class="especime">
+          <svg class="desenho" viewBox="0 0 120 120" aria-hidden="true">
+            <path class="t grosso" d="M16 106C40 86 66 60 106 20"/>
+            <path class="t" d="M60 65c2 8 1 13-1 17M59.5 74c-4 3-6 7-6 11"/>
+            <use href="#fo-oliveira" transform="translate(34.6 89.8) rotate(-84) scale(.8)"/>
+            <use href="#fo-oliveira" transform="translate(45 80) rotate(-4) scale(.8)"/>
+            <use href="#fo-oliveira" transform="translate(55 70.5) rotate(-82) scale(.85)"/>
+            <use href="#fo-oliveira" transform="translate(66 59.5) rotate(-2) scale(.85)"/>
+            <use href="#fo-oliveira" transform="translate(78.4 47.5) rotate(-80) scale(.85)"/>
+            <use href="#fo-oliveira" transform="translate(90 36) rotate(10) scale(.7)"/>
+            <use href="#fo-oliveira" transform="translate(106 20) rotate(-42) scale(.55)"/>
+            <use href="#azeitona" transform="translate(58.5 87.5)"/>
+            <use href="#azeitona" transform="translate(53.5 90) scale(.9)"/>
+          </svg>
+          <p class="etiqueta"><span class="num">Nº&nbsp;03</span> <span class="sci"><i>Olea europaea</i> L.</span><br>oliveira · as árvores sagradas da Academia</p>
+          <h3>Academia</h3>
+          <p>Filosofia de qualquer época e tradição.</p>
+          <ul class="subsalas">
+            <li><strong>Stoa</strong>: ética e vida prática</li>
+            <li><strong>Liceu</strong>: metafísica e lógica</li>
+          </ul>
+        </article>
+
+        <article class="especime">
+          <svg class="desenho" viewBox="0 0 120 120" aria-hidden="true">
+            <g transform="translate(48 104) rotate(-14) scale(1.3)">
+              <path class="t" d="M0 0L-1 9"/>
+              <path class="f" d="M0 0C-5-3-11-4-9-10C-15-10-18-16-12-20C-19-23-18-31-10-32C-14-39-9-46-3-47C-4-52 2-56 4-52C7-56 13-50 10-45C17-45 20-37 13-33C20-30 20-22 13-20C19-16 16-9 10-10C12-4 6-2 0 0Z"/>
+              <path class="v" d="M0-1C1-18 2-34 3-50M1-10L-9-10M1-10L10-10M1.5-20L-12-20M1.5-20L13-20M2-32L-10-32M2-32L13-33M2.5-44L-3-47M2.5-44L10-45"/>
+            </g>
+            <path class="t" d="M96 6C94 12 90 17 86 21"/>
+            <ellipse class="tinta" cx="86" cy="38" rx="8" ry="11" style="fill:var(--bolota)"/>
+            <path class="t fino" d="M86 49v2.5"/>
+            <path class="tinta" d="M76.5 30C76.5 21 95.5 21 95.5 30C93 33 79 33 76.5 30Z" style="fill:var(--etiqueta)"/>
+            <path class="t fino" d="M79 25l3 3M83 23l4 4M88 23l4 4M80 29l2-2M85 29l4-4M90 29l3-3"/>
+          </svg>
+          <p class="etiqueta"><span class="num">Nº&nbsp;04</span> <span class="sci"><i>Quercus robur</i> L.</span><br>carvalho · a árvore de Zeus</p>
+          <h3>Pólis <span class="selo">só Raízes</span></h3>
+          <p>A cidade e seus conflitos. Ideias, não pessoas.</p>
+          <ul class="subsalas">
+            <li><strong>Assembleia</strong>: debate político</li>
+            <li><strong>Conjuntura</strong>: notícias e análise, com fonte</li>
+          </ul>
+        </article>
+
+        <article class="especime">
+          <svg class="desenho" viewBox="0 0 120 120" aria-hidden="true">
+            <path class="t" d="M60 116L60 44M44 116L44 62M77 116L77 70"/>
+            <path class="t raio" d="M60 44L32.6 38.2M32.6 38.2l-3.8 1.1M32.6 38.2l-3.1-2.6M60 44L34.4 32.6M34.4 32.6l-4 .3M34.4 32.6l-2.5-3.2M60 44L37.3 27.5M37.3 27.5l-4-.6M37.3 27.5l-1.8-3.6M60 44L41.3 23.2M41.3 23.2l-3.8-1.4M41.3 23.2l-1-3.9M60 44L46 19.8M46 19.8l-3.4-2.1M46 19.8l-.1-4M60 44L51.3 17.4M51.3 17.4l-2.9-2.8M51.3 17.4l.7-3.9M60 44L57.1 16.2M57.1 16.2l-2.2-3.3M57.1 16.2l1.5-3.7M60 44L62.9 16.2M62.9 16.2l-1.5-3.7M62.9 16.2l2.2-3.3M60 44L68.7 17.4M68.7 17.4l-.7-3.9M68.7 17.4l2.9-2.8M60 44L74 19.8M74 19.8l.1-4M74 19.8l3.4-2.1M60 44L78.7 23.2M78.7 23.2l1-3.9M78.7 23.2l3.8-1.4M60 44L82.7 27.5M82.7 27.5l1.8-3.6M82.7 27.5l4-.6M60 44L85.6 32.6M85.6 32.6l2.5-3.2M85.6 32.6l4 .3M60 44L87.4 38.2M87.4 38.2l3.1-2.6M87.4 38.2l3.8 1.1"/>
+            <path class="t raio" d="M44 62L26.6 57.3M26.6 57.3l-2.9.7M26.6 57.3l-2.2-2M44 62L28.4 53M28.4 53l-3-.1M28.4 53l-1.6-2.5M44 62L31.3 49.3M31.3 49.3l-2.9-.9M31.3 49.3l-.9-2.9M44 62L35 46.4M35 46.4l-2.5-1.6M35 46.4l-.1-3M44 62L39.3 44.6M39.3 44.6l-2-2.2M39.3 44.6l.7-2.9M44 62L44 44M44 44l-1.4-2.6M44 44l1.4-2.6M44 62L48.7 44.6M48.7 44.6l-.7-2.9M48.7 44.6l2-2.2M44 62L53 46.4M53 46.4l.1-3M53 46.4l2.5-1.6M44 62L56.7 49.3M56.7 49.3l.9-2.9M56.7 49.3l2.9-.9M44 62L59.6 53M59.6 53l1.6-2.5M59.6 53l3-.1M44 62L61.4 57.3M61.4 57.3l2.2-2M61.4 57.3l2.9.7"/>
+            <path class="t raio" d="M77 70L62 64.5M62 64.5l-3 .4M62 64.5l-2-2.2M77 70L64.7 59.7M64.7 59.7l-2.9-.6M64.7 59.7l-1.1-2.8M77 70L69 56.1M69 56.1l-2.5-1.6M69 56.1l-.1-3M77 70L74.2 54.2M74.2 54.2l-1.8-2.4M74.2 54.2l.9-2.9M77 70L79.8 54.2M79.8 54.2l-.9-2.9M79.8 54.2l1.8-2.4M77 70L85 56.1M85 56.1l.1-3M85 56.1l2.5-1.6M77 70L89.3 59.7M89.3 59.7l1.1-2.8M89.3 59.7l2.9-.6M77 70L92 64.5M92 64.5l2-2.2M92 64.5l3 .4"/>
+            <path class="f" d="M53 116C55 108 58 104 60 100C62 104 65 108 67 116Z"/>
+            <path class="f" d="M39 116C40 110 42 107 44 104C46 107 48 110 49 116Z"/>
+            <path class="f" d="M72 116C73 110 75 107 77 104C79 107 81 110 82 116Z"/>
+            <path class="t" d="M28 116H94"/>
+            <path class="t fino" d="M32 112h6M86 112h6"/>
+          </svg>
+          <p class="etiqueta"><span class="num">Nº&nbsp;05</span> <span class="sci"><i>Cyperus papyrus</i> L.</span><br>papiro · de onde veio o papel</p>
+          <h3>Biblioteca</h3>
+          <p>Romance, conto, poesia, ensaio, teatro.</p>
+          <ul class="subsalas">
+            <li><strong>Clube do Livro</strong>: uma leitura por mês</li>
+            <li><strong>Sarau</strong>: poesia em voz alta</li>
+          </ul>
+        </article>
+
+        <article class="especime">
+          <svg class="desenho" viewBox="0 0 120 120" aria-hidden="true">
+            <path class="t grosso" d="M20 108C42 88 66 62 100 18"/>
+            <path class="t" d="M60 66.6c-3-1-6-1-8-.5"/>
+            <use href="#fo-louro" transform="translate(37 91.7) rotate(-10) scale(.9)"/>
+            <use href="#fo-louro" transform="translate(46 82) rotate(-84) scale(.9)"/>
+            <use href="#fo-louro" transform="translate(55.5 72) rotate(-12) scale(.9)"/>
+            <use href="#fo-louro" transform="translate(65 61) rotate(-82) scale(.9)"/>
+            <use href="#fo-louro" transform="translate(76 48) rotate(-14) scale(.85)"/>
+            <use href="#fo-louro" transform="translate(86 36) rotate(-78) scale(.8)"/>
+            <use href="#fo-louro" transform="translate(100 18) rotate(-50) scale(.6)"/>
+            <circle class="tinta" cx="49" cy="68" r="3.6" style="fill:var(--azeitona)"/>
+            <circle class="tinta" cx="51.5" cy="62.5" r="3.4" style="fill:var(--azeitona)"/>
+          </svg>
+          <p class="etiqueta"><span class="num">Nº&nbsp;06</span> <span class="sci"><i>Laurus nobilis</i> L.</span><br>louro · a coroa de Apolo e dos poetas</p>
+          <h3>Museion</h3>
+          <p>Cinema, música, artes, história, ciência: tudo o que cabe nos “afins”.</p>
+        </article>
+
+        <article class="especime">
+          <svg class="desenho" viewBox="0 0 120 120" aria-hidden="true">
+            <path class="t grosso" d="M6 24C26 16 46 22 64 16C82 10 98 12 114 20"/>
+            <path class="t" d="M34 19C33 26 34 30 36 34M82 13C84 20 84 26 82 31"/>
+            <g transform="translate(36 34) rotate(180) scale(.9)">
+              <path class="f" d="M0 0C-10 2-26 0-30-10C-24-12-24-18-28-24C-18-24-14-30-14-38C-8-34-4-38 0-46C4-38 8-34 14-38C14-30 18-24 28-24C24-18 24-12 30-10C26 0 10 2 0 0Z"/>
+              <path class="v" d="M0-2V-42M0-3L-24-20M0-3L24-20M0-2L-26-9M0-2L26-9"/>
+            </g>
+            <use href="#uva" transform="translate(71 36)"/>
+            <use href="#uva" transform="translate(79 36)"/>
+            <use href="#uva" transform="translate(87 36)"/>
+            <use href="#uva" transform="translate(95 36)"/>
+            <use href="#uva" transform="translate(75 43.5)"/>
+            <use href="#uva" transform="translate(83 43.5)"/>
+            <use href="#uva" transform="translate(91 43.5)"/>
+            <use href="#uva" transform="translate(79 51)"/>
+            <use href="#uva" transform="translate(87 51)"/>
+            <use href="#uva" transform="translate(83 58.5)"/>
+            <path class="t" d="M104 15C110 22 100 28 104 34C107 38 112 34 109 31"/>
+          </svg>
+          <p class="etiqueta"><span class="num">Nº&nbsp;07</span> <span class="sci"><i>Vitis vinifera</i> L.</span><br>videira · o vinho do banquete</p>
+          <h3>Simpósio</h3>
+          <p>Debate mediado. Só fala quem tem a palavra, e um Cultor conduz.</p>
+        </article>
+
+        <article class="especime">
+          <svg class="desenho" viewBox="0 0 120 120" aria-hidden="true">
+            <g transform="translate(50 98) rotate(-10) scale(1.05)">
+              <path class="t" d="M0 0C1 5 2 9 1 14"/>
+              <path class="f" d="M0 0C-6-2-12-2-18 2C-26-2-32-12-26-18C-22-20-18-20-14-18C-24-26-26-40-18-44C-12-44-8-38-6-32C-8-44-6-56 0-60C6-56 8-44 6-32C8-38 12-44 18-44C26-40 24-26 14-18C18-20 22-20 26-18C32-12 26-2 18 2C12-2 6-2 0 0Z"/>
+              <path class="v" d="M0-2V-56M0-4L-17-40M0-4L17-40M0-3L-24-14M0-3L24-14"/>
+            </g>
+            <path class="t" d="M98 40C97 46 95 50 93 53"/>
+            <path class="tinta" d="M93 53C101 58 105 72 99 80C96 84 90 84 87 80C81 72 85 58 93 53Z" style="fill:var(--figo)"/>
+            <path class="t fino" d="M93 82.5v1M89 62c-1 4-1 8 0 12"/>
+          </svg>
+          <p class="etiqueta"><span class="num">Nº&nbsp;08</span> <span class="sci"><i>Ficus carica</i> L.</span><br>figueira · sombra para conversa</p>
+          <h3>Recantos</h3>
+          <p>Bancos para conversas pequenas.</p>
+          <ul class="subsalas">
+            <li><strong>Banco da Oliveira</strong>: a dois</li>
+            <li><strong>Caramanchão</strong>: a quatro</li>
+            <li><strong>Peripato</strong>: a seis</li>
+          </ul>
+        </article>
+
+        <article class="especime">
+          <svg class="desenho" viewBox="0 0 120 120" aria-hidden="true">
+            <path class="t" d="M58 116C55 98 64 80 62 58M58 116C60 102 78 96 86 86"/>
+            <path class="t fino" d="M58 104l-3-2M61 88l3-1M60 74l-3-1M66 103l1-3M76 96l1-3"/>
+            <path class="f" d="M57 112C48 108 40 108 32 100C38 100 40 96 44 98C44 94 48 92 50 96C52 92 55 94 55 98C57 102 58 106 57 112Z"/>
+            <ellipse class="tinta" cx="51" cy="40" rx="13.5" ry="11" transform="rotate(-25 51 40)" style="fill:var(--papoula)"/>
+            <ellipse class="tinta" cx="73" cy="40" rx="13.5" ry="11" transform="rotate(25 73 40)" style="fill:var(--papoula)"/>
+            <ellipse class="tinta" cx="54" cy="53" rx="12.5" ry="10" transform="rotate(20 54 53)" style="fill:var(--papoula)"/>
+            <ellipse class="tinta" cx="70" cy="53" rx="12.5" ry="10" transform="rotate(-20 70 53)" style="fill:var(--papoula)"/>
+            <circle class="tinta" cx="62" cy="47" r="4.6" style="fill:#2a2622"/>
+            <path class="t fino" d="M62 41v-3M62 53v3M56 47h-3M68 47h3M57.8 42.8l-2-2M66.2 42.8l2-2M57.8 51.2l-2 2M66.2 51.2l2 2"/>
+            <ellipse class="f media" cx="88" cy="81" rx="5.2" ry="8" transform="rotate(35 88 81)"/>
+            <path class="t fino" d="M86 76l-2-2M91 78l2-1M90 86l2 1"/>
+          </svg>
+          <p class="etiqueta"><span class="num">Nº&nbsp;09</span> <span class="sci"><i>Papaver rhoeas</i> L.</span><br>papoula · a flor do sono</p>
+          <h3>Sesta</h3>
+          <p>Para quem se ausentou por um momento. Lá ninguém fala.</p>
+        </article>
+
+        <article class="especime">
+          <svg class="desenho" viewBox="0 0 120 120" aria-hidden="true">
+            <path class="t" d="M44 52C44 34 76 34 76 52"/>
+            <path class="tinta" d="M83 70L104 47L109 51L85 80Z" style="fill:var(--etiqueta)"/>
+            <path class="tinta" d="M34 56H86L82 100C82 104 78 106 74 106H46C42 106 38 104 38 100Z" style="fill:var(--etiqueta)"/>
+            <ellipse class="tinta" cx="60" cy="56" rx="26" ry="4" style="fill:var(--cartao)"/>
+            <circle class="tinta" cx="108" cy="47" r="5" style="fill:var(--etiqueta)"/>
+            <path class="t fino" d="M106.5 45.5h.01M109.5 45.5h.01M108 48.5h.01M44 70h32M43 84h34"/>
+            <path class="t fino" style="stroke:var(--folha-media);opacity:1" d="M112 52l3 6M108 54l1 7M115 49l4 4"/>
+            <use href="#fo-oliveira" transform="translate(22 106) rotate(-70) scale(.6)"/>
+          </svg>
+          <p class="etiqueta"><span class="num">Nº&nbsp;10</span> <span class="sci"><i>Instrumentum hortulani</i></span><br>regador · ferramenta, não planta</p>
+          <h3>Casa do Jardineiro</h3>
+          <p>A sala da equipe. Só Jardineiros e Cultores entram.</p>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="prancha" id="quem-cuida">
+    <div class="largo">
+      <div style="max-width:46rem">
+        <p class="rotulo">Prancha III · Quem cuida</p>
+        <h2>Do jeito que um jardim cresce</h2>
+        <p class="intro">Ninguém chega Jardineiro. Aqui cada um cresce no seu tempo, e quem está há mais tempo cuida de quem acabou de chegar.</p>
+      </div>
+
+      <div class="germinacao">
+        <figure>
+          <svg viewBox="0 0 120 128" aria-hidden="true">
+            <path class="t" d="M2 88H118"/>
+            <path class="t terra" d="M5.5 97.2l4-2.3M9.1 108l3.4-2M13.5 107.2l2.7-1.5M19 95l2.8-1.6M23.4 116.2l2.9-1.7M27.2 110.6l4.7-2.7M32.6 104.1l4.7-2.7M35.4 117l3.2-1.9M40.1 96.3l3.3-1.9M46.5 98.1l3.9-2.2M50.4 103.4l3.8-2.2M53.1 94.7l3.1-1.8M59.3 105l3.3-1.9M63.5 105.7l3.3-1.9M68.5 112.6l3.1-1.8M72.2 107.7l4.5-2.6M77.1 101.1l4.7-2.7M79.7 104.7l4.3-2.4M84.2 106.7l2.7-1.5M90.1 114.4l3.9-2.2M95.1 101.8l4.1-2.4M98.7 109.2l3.6-2.1M103.8 119.5l3.6-2.1M107.7 94.7l4.1-2.4M112 120.8l4.4-2.5M7.4 103.8l4.1-2.3"/>
+            <ellipse class="tinta" cx="60" cy="101" rx="9" ry="6" transform="rotate(-18 60 101)" style="fill:var(--semente)"/>
+            <path class="t fino" d="M53 103C57 99 63 98 67 99"/>
+          </svg>
+          <figcaption>Fig. 1 · Semente</figcaption>
+          <h3>Semente</h3>
+          <p>Quem acabou de chegar. Conversa nas salas abertas e pede a palavra no Simpósio.</p>
+        </figure>
+        <figure>
+          <svg viewBox="0 0 120 128" aria-hidden="true">
+            <path class="t" d="M2 88H118"/>
+            <path class="t terra" d="M5.5 97.2l4-2.3M9.1 108l3.4-2M13.5 107.2l2.7-1.5M19 95l2.8-1.6M23.4 116.2l2.9-1.7M27.2 110.6l4.7-2.7M32.6 104.1l4.7-2.7M35.4 117l3.2-1.9M40.1 96.3l3.3-1.9M46.5 98.1l3.9-2.2M72.2 107.7l4.5-2.6M77.1 101.1l4.7-2.7M79.7 104.7l4.3-2.4M84.2 106.7l2.7-1.5M90.1 114.4l3.9-2.2M95.1 101.8l4.1-2.4M98.7 109.2l3.6-2.1M103.8 119.5l3.6-2.1M107.7 94.7l4.1-2.4M112 120.8l4.4-2.5M7.4 103.8l4.1-2.3"/>
+            <path class="tinta" d="M52 99C52 93 59 91 61 95C59 99 55 101 52 99Z" style="fill:var(--semente)"/>
+            <path class="t" d="M60 96C59 86 61 76 60 64M60 97C58 104 62 110 59 118"/>
+            <path class="t fino" d="M59.5 104l-7 5M60.5 109l6 5M59.5 113l-5 6"/>
+            <path class="f" d="M60 64C53 56 43 57 40 63C46 69 55 69 60 64Z"/>
+            <path class="f" d="M60 64C67 56 77 57 80 63C74 69 65 69 60 64Z"/>
+          </svg>
+          <figcaption>Fig. 2 · Raiz</figcaption>
+          <h3>Raiz</h3>
+          <p>Quem já criou raízes. Entra na Pólis e cria salas temporárias.</p>
+        </figure>
+        <figure>
+          <svg viewBox="0 0 120 128" aria-hidden="true">
+            <path class="t" d="M2 88H118"/>
+            <path class="t terra" d="M5.5 97.2l4-2.3M9.1 108l3.4-2M13.5 107.2l2.7-1.5M19 95l2.8-1.6M23.4 116.2l2.9-1.7M27.2 110.6l4.7-2.7M32.6 104.1l4.7-2.7M35.4 117l3.2-1.9M40.1 96.3l3.3-1.9M77.1 101.1l4.7-2.7M79.7 104.7l4.3-2.4M84.2 106.7l2.7-1.5M90.1 114.4l3.9-2.2M95.1 101.8l4.1-2.4M98.7 109.2l3.6-2.1M103.8 119.5l3.6-2.1M107.7 94.7l4.1-2.4M112 120.8l4.4-2.5M7.4 103.8l4.1-2.3"/>
+            <path class="t" d="M60 88C58 72 62 56 60 26M60 89C59 98 62 106 60 120"/>
+            <path class="t fino" d="M60 95l-9 6M60.5 100l8 6M60 106l-7 7M60.5 112l6 6"/>
+            <use href="#fo-louro" transform="translate(60 76) rotate(200) scale(.75)"/>
+            <use href="#fo-louro" transform="translate(60 67) rotate(-25) scale(.75)"/>
+            <use href="#fo-louro" transform="translate(60.5 58) rotate(205) scale(.7)"/>
+            <use href="#fo-louro" transform="translate(60.5 49) rotate(-28) scale(.65)"/>
+            <use href="#fo-louro" transform="translate(60 40) rotate(210) scale(.6)"/>
+            <use href="#fo-louro" transform="translate(60 27) rotate(-90) scale(.45)"/>
+          </svg>
+          <figcaption>Fig. 3 · Cultor</figcaption>
+          <h3>Cultor</h3>
+          <p>Quem cultiva as conversas: conduz o Simpósio, concede a palavra, recebe quem chega.</p>
+        </figure>
+        <figure>
+          <svg viewBox="0 0 120 128" aria-hidden="true">
+            <path class="t" d="M2 88H118"/>
+            <path class="t terra" d="M5.5 97.2l4-2.3M9.1 108l3.4-2M13.5 107.2l2.7-1.5M19 95l2.8-1.6M23.4 116.2l2.9-1.7M27.2 110.6l4.7-2.7M32.6 104.1l4.7-2.7M35.4 117l3.2-1.9M84.2 106.7l2.7-1.5M90.1 114.4l3.9-2.2M95.1 101.8l4.1-2.4M98.7 109.2l3.6-2.1M103.8 119.5l3.6-2.1M107.7 94.7l4.1-2.4M112 120.8l4.4-2.5M7.4 103.8l4.1-2.3"/>
+            <path class="t grosso" d="M58 88C60 76 54 68 58 56C60 50 57 46 55 42M58 62C64 58 66 52 70 46M57 52C50 50 46 46 44 42"/>
+            <path class="t" d="M58 89C52 96 46 100 40 104M59 89C64 97 70 101 78 104M58.5 90C58 100 60 108 58 118"/>
+            <path class="t fino" d="M46 99l-6 1M70 100l6 2M59 106l-5 4"/>
+            <path d="M27 42C21 30 33 15 50 17C57 9 76 10 82 19C95 21 99 36 91 45C89 55 74 59 63 55C53 61 35 58 31 50C26 48 25 45 27 42Z" style="fill:var(--broto);stroke:var(--sepia);stroke-width:1;stroke-dasharray:3 2.5;vector-effect:non-scaling-stroke"/><use href="#fo-oliveira" transform="translate(87.3 35.8) rotate(29) scale(.42)"/><use href="#fo-oliveira" transform="translate(85.6 40.1) rotate(20.6) scale(.42)"/><use href="#fo-oliveira" transform="translate(83.9 43.1) rotate(34.8) scale(.42)"/><use href="#fo-oliveira" transform="translate(73.2 45.4) rotate(35.3) scale(.42)"/><use href="#fo-oliveira" transform="translate(78.1 51.6) rotate(67.9) scale(.42)"/><use href="#fo-oliveira" transform="translate(72.3 55.4) rotate(101.2) scale(.42)"/><use href="#fo-oliveira" transform="translate(59 53.4) rotate(68.1) scale(.42)"/><use href="#fo-oliveira" transform="translate(56.1 52.4) rotate(67.5) scale(.42)"/><use href="#fo-oliveira" transform="translate(50.3 48.5) rotate(82.8) scale(.42)"/><use href="#fo-oliveira" transform="translate(42.2 47.2) rotate(158.5) scale(.42)"/><use href="#fo-oliveira" transform="translate(35.3 44.7) rotate(150.2) scale(.42)"/><use href="#fo-oliveira" transform="translate(34.9 39.5) rotate(151.7) scale(.42)"/><use href="#fo-oliveira" transform="translate(26.3 33.5) rotate(210.7) scale(.42)"/><use href="#fo-oliveira" transform="translate(37.6 31.5) rotate(178.9) scale(.42)"/><use href="#fo-oliveira" transform="translate(42.4 30.4) rotate(225.7) scale(.42)"/><use href="#fo-oliveira" transform="translate(37.1 22.5) rotate(215.7) scale(.42)"/><use href="#fo-oliveira" transform="translate(47.3 18.1) rotate(211.3) scale(.42)"/><use href="#fo-oliveira" transform="translate(49.4 16.9) rotate(248.9) scale(.42)"/><use href="#fo-oliveira" transform="translate(62.9 20.8) rotate(246.7) scale(.42)"/><use href="#fo-oliveira" transform="translate(68.8 17.9) rotate(270.7) scale(.42)"/><use href="#fo-oliveira" transform="translate(69.8 22.6) rotate(326.8) scale(.42)"/><use href="#fo-oliveira" transform="translate(75.4 27.6) rotate(300.8) scale(.42)"/><use href="#fo-oliveira" transform="translate(76 29) rotate(345.3) scale(.42)"/><use href="#fo-oliveira" transform="translate(85.7 30.4) rotate(336.9) scale(.42)"/>
+            <use href="#azeitona" transform="translate(46 44) scale(.62)"/><use href="#azeitona" transform="translate(70 47) scale(.62)"/><use href="#azeitona" transform="translate(58 30) scale(.62)"/><use href="#azeitona" transform="translate(80 36) scale(.62)"/>
+          </svg>
+          <figcaption>Fig. 4 · Jardineiro</figcaption>
+          <h3>Jardineiro</h3>
+          <p>Quem cuida do jardim inteiro.</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="prancha" id="notas">
+    <div class="estreito">
+      <p class="rotulo">Prancha IV · As regras</p>
+      <h2>Notas de campo</h2>
+      <p class="intro">As regras existem para a conversa ser boa, não para todo mundo concordar.</p>
+      <ol class="notas">
+        <li><div><strong>Discuta ideias, não pessoas.</strong> <span>Critique o argumento à vontade; ataque pessoal, não.</span></div></li>
+        <li><div><strong>Princípio da caridade.</strong> <span>Entenda a posição do outro na versão mais forte antes de criticá-la.</span></div></li>
+        <li><div><strong>Escute antes de responder.</strong> <span>Não interrompa; em sala cheia, espere a vez.</span></div></li>
+        <li><div><strong>Fundamente.</strong> <span>Diga de onde vem a informação e separe fato de opinião. “Não sei” é uma resposta respeitável.</span></div></li>
+        <li><div><strong>Divergir é bem-vindo; desumanizar, não.</strong> <span>Discurso de ódio e conteúdo criminoso levam a banimento imediato.</span></div></li>
+        <li><div><strong>Política sem panfleto.</strong> <span>Debate de ideias, sim; campanha, spam e notícia falsa, não.</span></div></li>
+        <li><div><strong>Cada sala tem seu tema.</strong> <span>Conversa paralela vai para os Recantos.</span></div></li>
+        <li><div><strong>O que se fala aqui fica aqui.</strong> <span>Não grave nem divulgue falas sem o consentimento de todos. Nunca exponha dados de ninguém.</span></div></li>
+        <li><div><strong>Áudio limpo.</strong> <span>Push-to-talk ou ativação por voz bem ajustada.</span></div></li>
+        <li><div><strong>A equipe cuida do jardim.</strong> <span>Siga a orientação de Jardineiros e Cultores; se discordar, converse depois, em privado.</span></div></li>
+      </ol>
+      <p class="nota-margem"><strong>Nota à margem</strong>Quem pisa nos canteiros recebe primeiro um aviso. Se insistir, sai da sala ou passa um tempo fora. Ódio, ameaça e exposição de dados de alguém dão banimento direto.</p>
+    </div>
+  </section>
+
+  <section class="prancha" id="nome">
+    <div class="estreito prosa">
+      <p class="rotulo">Prancha V · O nome</p>
+      <h2>De onde vem o Jardim</h2>
+      <p>Por volta de 306 a.C., Epicuro comprou uma casa com horta em Atenas e fez dela uma escola: o Jardim, <em>Kêpos</em> em grego. Era um lugar de amigos, onde se pensava devagar sobre como viver bem. No portão, conta Sêneca, uma inscrição recebia quem chegava: “Hóspede, aqui farás bem em demorar-te.”</p>
+      <p>As salas levam os nomes dos lugares de conversa da Grécia antiga: a Academia de Platão, a Stoa dos estoicos, o Liceu de Aristóteles e o passeio (<em>peripatos</em>) em que ele ensinava caminhando, a ágora, o simpósio e o Museion de Alexandria, casa da grande Biblioteca.</p>
+      <p>E o .cloud? Fica por conta de <em>As Nuvens</em>, de Aristófanes, a comédia em que Sócrates aparece pendurado num cesto, pensando lá do alto. Aqui, a conversa acontece com os pés na terra.</p>
+      <p>A frase que fecha esta página é a última do <em>Cândido</em>, de Voltaire: depois de rodar o mundo atrás de respostas, a lição que sobra é cuidar do que está perto.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="muro">
+  <div class="estreito">
+    <svg class="ramo" viewBox="0 0 120 40" aria-hidden="true">
+      <path class="t" d="M10 30C40 26 80 20 110 10"/>
+      <use href="#fo-oliveira" transform="translate(30 27) rotate(-40) scale(.6)"/>
+      <use href="#fo-oliveira" transform="translate(50 24.5) rotate(15) scale(.6)"/>
+      <use href="#fo-oliveira" transform="translate(72 20) rotate(-36) scale(.6)"/>
+      <use href="#fo-oliveira" transform="translate(92 15) rotate(10) scale(.55)"/>
+    </svg>
+    <blockquote>“É preciso cultivar nosso jardim.”<small>Voltaire, Cândido</small></blockquote>
+    <p>Sem cookies e sem rastreadores. Feito à mão, entre amigos.</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var botao = document.getElementById('copiar');
+    var alvo = document.getElementById('endereco');
+    botao.addEventListener('click', function () {
+      function ok() { botao.textContent = 'Copiado'; setTimeout(function () { botao.textContent = 'Copiar'; }, 1800); }
+      function selecionar() {
+        var r = document.createRange(); r.selectNodeContents(alvo);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        botao.textContent = 'Ctrl+C';
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(alvo.textContent).then(ok, selecionar);
+      } else { selecionar(); }
+    });
+  })();
+</script>
+</body>
+</html>
